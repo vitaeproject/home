@@ -22,29 +22,6 @@
   color: #61dafb;
 }
 
-.c1 {
-  text-align: center;
-  width: fill;
-  height: fill;
-  font: sans-serif;
-  background: #dff9fb;
-}
-
-.c2 {
-  text-align: center;
-  width: fill;
-  height: fill;
-  font: sans-serif;
-  background: #c7ecee;
-}
-
-.c3 {
-  text-align: center;
-  width: fill;
-  height: fill;
-  font: sans-serif;
-  background: #95afc0;
-}
 
 @keyframes App-logo-spin {
   from {
