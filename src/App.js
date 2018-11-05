@@ -3,6 +3,7 @@ import { Form, Table, TabContent, TabPane, Nav, NavItem, NavLink, Button, Row, C
 import classnames from 'classnames';
 import Users from './Users.js';
 import Verifiers from './Verifiers.js';
+import Employers from './Employers.js';
 import web3 from './web3.js';
 import ipfs from './ipfs.js';
 import storehash from './storehash.js';
@@ -77,7 +78,7 @@ export default class App extends React.Component {
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <Button outline size="sm" block onClick={this.employerLogIn}>Sign In</Button>
+                <Employers></Employers>
               </Col>
             </Row>
           </TabPane>

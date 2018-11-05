@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, Label, Input, Form, Table, TabContent, TabPane, Nav, NavItem, NavLink, Button, Row, Col } from 'reactstrap';
+import { Alert, FormGroup, Label, Input, Form, Table, TabContent, TabPane, Nav, NavItem, NavLink, Button, Row, Col } from 'reactstrap';
 import './App.css';
 import web3 from './web3';
 import ipfs from './ipfs';
@@ -91,22 +91,24 @@ class Verifiers extends Component {
     render() {
       return (
         <div className="App">
-          <hr />
-            <h3> Choose verified resume to send to IPFS </h3>
-            <Form onSubmit={this.onSubmit}>
-              <input
-                type = "file"
-                onChange = {this.captureFile}
-              />
-              <p1>User address</p1>
-              <input type="textArea" onChange={this.captureAddress}/>
-              <br></br>
-               <Button
-               bsStyle="primary"
-               type="submit">
-               Send
-               </Button>
-            </Form>
+          <Alert color="primary">
+            Please install <a href="https://metamask.io/" className="alert-link">MetaMask</a> and sign in!
+          </Alert>
+          <h3> Choose verified resume to send to IPFS </h3>
+          <Form onSubmit={this.onSubmit}>
+            <input
+              type = "file"
+              onChange = {this.captureFile}
+            />
+            <p1>User address</p1>
+            <input type="textArea" onChange={this.captureAddress}/>
+            <br></br>
+             <Button
+             bsStyle="primary"
+             type="submit">
+             Send
+             </Button>
+          </Form>
           <hr/>
           <Button onClick = {this.onClick}> Get Transaction Receipt </Button>
           <Table bordered responsive>
@@ -116,7 +118,6 @@ class Verifiers extends Component {
                 <th>Values</th>
               </tr>
             </thead>
-
             <tbody>
               <tr>
                 <td>IPFS Hash # stored on Eth Contract</td>
@@ -138,7 +139,6 @@ class Verifiers extends Component {
                 <td>Gas Used</td>
                 <td>{this.state.gasUsed}</td>
               </tr>
-
             </tbody>
           </Table>
         </div>
