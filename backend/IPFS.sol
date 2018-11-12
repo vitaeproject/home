@@ -1,12 +1,10 @@
 pragma solidity ^0.4.25;
 contract IPFS {
-  /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  *  ==============================INIT=============================
-  *  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+  /* record verifier */
   mapping(string => address) ipfsHashes;
+  /* record user address to verified resume hashes */
   mapping(string => string) userHashes;
-  mapping(address => uint) paid;
 
   /* Constructor function */
   constructor() public {
@@ -22,15 +20,17 @@ contract IPFS {
 
   mapping (address => bool) private masterAccess;
   mapping (address => bool) private verifierAccess;
+  mapping (address => bool) private subscriberAccess;
+
 
   function sendHash(string x, string addr) _is(verifierAccess) public {
     ipfsHashes[x] = msg.sender;
     userHashes[addr] = x;
   }
 
-  function uploadResumeFees() payable public returns (uint) {
-    paid[msg.sender] = paid[msg.sender] + msg.value;
-    return paid[msg.sender];
+  function getResume(string addr) _is(subscriberAccess) view public
+    returns (string){
+    return userHashes[addr];
   }
 
   function getVerifier(string hash) _is(masterAccess) view public
@@ -38,8 +38,15 @@ contract IPFS {
     return ipfsHashes[hash];
   }
 
-  function getResume(string addr) _is(masterAccess) view public
-    returns (string){
-    return userHashes[addr];
+  function addVerifier(address addr) _is(masterAccess) public {
+    verifierAccess[addr] = true;
+  }
+
+  function addSubscriber(address addr) _is(masterAccess) public {
+    subscriberAccess[addr] = true;
+  }
+
+  function() public {
+    revert();
   }
 }

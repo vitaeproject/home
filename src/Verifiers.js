@@ -100,7 +100,7 @@ class Verifiers extends Component {
               type = "file"
               onChange = {this.captureFile}
             />
-            <p1>User address</p1>
+            <p1>User Address:</p1>
             <input type="textArea" onChange={this.captureAddress}/>
             <br></br>
              <Button
