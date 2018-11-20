@@ -4,19 +4,21 @@ import './App.css';
 import web3 from './web3';
 import ipfs from './ipfs';
 import storehash from './storehash';
+import Linkify from 'react-linkify';
 
 
 class Verifiers extends Component {
 
     state = {
-      ipfsHash:null,
+      ipfsHash: null,
       buffer:'',
       ethAddress:'',
       blockNumber:'',
       transactionHash:'',
       gasUsed:'',
       txReceipt: '',
-      userAddress: ''
+      userAddress: '',
+      result: ''
     };
 
     captureFile =(event) => {
@@ -88,12 +90,44 @@ class Verifiers extends Component {
       }) //await ipfs.add
     }; //onSubmit
 
+    onSubmitDownload = async (event) => {
+      event.preventDefault();
+     //bring in user's metamask account address
+      const accounts = await web3.eth.getAccounts();
+
+      console.log('Sending from Metamask account: ' + accounts[0]);
+      //obtain contract address from storehash.js
+      const ethAddress= await storehash.options.address;
+      //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add
+      var hash = await storehash.methods.downloadResumes().call({from: accounts[0]});
+      var j;
+      this.setState({result: "[User address]: [link to resume to be verified]\n"});
+      for (j = 0; j < hash.length; j++) {
+        if (hash[j] == "") {
+          continue;
+        } else {
+          let address = await storehash.methods.getUserAddress(hash[j]).call({from: accounts[0]});
+          this.setState({result: this.state.result + address + ": " + "https://gateway.ipfs.io/ipfs/" + hash[j] + "\n"});
+        }
+      }
+      if (this.state.result == "[User address]: [link to resume to be verified]\n") {
+        this.setState({result: "There is no resumes assigned at this point."});
+      }
+    }; //onSubmitDownload
+
     render() {
       return (
         <div className="App">
-          <Alert color="primary">
+          <Alert color="warning">
             Please install <a href="https://metamask.io/" className="alert-link">MetaMask</a> and sign in!
           </Alert>
+          <h3> Click the button to view assigned resumes </h3>
+          <br></br>
+          <Button color="warning" onClick = {this.onSubmitDownload}> View Assigned Resumes</Button>
+          <br></br>
+          <br></br>
+          <Linkify>{this.state.result}</Linkify>
+          <hr/>
           <h3> Choose verified resume to send to IPFS </h3>
           <Form onSubmit={this.onSubmit}>
             <input
@@ -103,7 +137,9 @@ class Verifiers extends Component {
             <p1>User Address:</p1>
             <input type="textArea" onChange={this.captureAddress}/>
             <br></br>
+            <br></br>
              <Button
+             color="warning"
              bsStyle="primary"
              type="submit">
              Send
@@ -111,6 +147,7 @@ class Verifiers extends Component {
           </Form>
           <hr/>
           <Button onClick = {this.onClick}> Get Transaction Receipt </Button>
+          <br></br>
           <Table bordered responsive>
             <thead>
               <tr>

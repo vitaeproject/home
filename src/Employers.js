@@ -3,7 +3,7 @@ import { Alert, Button, Form, FormGroup, Label, Input, FormText, Col } from 'rea
 import web3 from './web3';
 import ipfs from './ipfs';
 import storehash from './storehash';
-import Linkify from 'react-linkify'
+import Linkify from 'react-linkify';
 
 class Employers extends Component {
 
@@ -50,7 +50,7 @@ class Employers extends Component {
     render() {
       return (
         <div className="App">
-          <Alert color="primary">
+          <Alert color="success">
             Please install <a href="https://metamask.io/" className="alert-link">MetaMask</a> and sign in!
           </Alert>
           <h3> Enter applicant's user address to see result </h3>
@@ -60,6 +60,7 @@ class Employers extends Component {
             <br></br>
             <br></br>
              <Button
+             color="success"
              bsStyle="primary"
              type="submit">
              View Result
